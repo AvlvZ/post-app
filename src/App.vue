@@ -1,6 +1,11 @@
 <template>
   <div class="app">
     <h1 class="app__header">Страница с постами</h1>
+    <ui-my-input
+      v-model="searchQuery"
+      placeholder="Поиск..."
+      class="app__input"
+    />
     <div class="app__btns">
       <ui-button @click="showDialog">
         Создать пост
@@ -17,7 +22,7 @@
       />
     </ui-dialog>
     <v-post-list
-        :posts="sortedPosts"
+        :posts="sortedAndSearchedPosts"
         @remove="removePost"
         v-if="!isPostLoading"
     />
@@ -33,11 +38,12 @@ import UiButton from "@/components/UI/ui-button";
 import axios from "axios";
 import VLoading from "@/components/v-loading";
 import UiSelect from "@/components/UI/ui-select";
+import UiMyInput from "@/components/UI/ui-input";
 
 
 export default {
   name: 'App',
-  components: {UiSelect, VLoading, UiButton, VPostList, VPostForm},
+  components: {UiMyInput, UiSelect, VLoading, UiButton, VPostList, VPostForm},
   data() {
     return {
       posts: [],
@@ -45,6 +51,7 @@ export default {
       modifierValue: "",
       isPostLoading: false,
       selectedSort: "",
+      searchQuery: "",
       sortOption: [
         {value: "title", name: "По названию"},
         {value: "body ", name: "По описанию"}
@@ -79,6 +86,9 @@ export default {
   computed: {
     sortedPosts() {
       return [...this.posts].sort((post1, post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
+    },
+    sortedAndSearchedPosts() {
+      return this.sortedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery.toLowerCase()))
     }
   }
 }
@@ -100,9 +110,7 @@ export default {
   margin: 0 auto 64px auto;
 }
 
-.multiselect {
-  width: 200px;
-  margin: 0;
-  border: 2px solid teal;
+.app__input {
+  margin-bottom: 16px;
 }
 </style>

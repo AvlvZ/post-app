@@ -30,20 +30,22 @@ export default {
 </script>
 
 <style scoped>
-
-
 .user-list-item {
   display: inline-block;
   margin-right: 10px;
 }
 
-.user-list-enter-active, .user-list-leave-active {
-  transition: all 1s;
+.user-list-enter-active,
+.user-list-leave-active {
+  transition: all .4s;
 }
 
-.user-list-enter, .user-list-leave-to /* .user-list-leave-active до версии 2.1.8 */
+.user-list-enter, .user-list-leave-to, .user-list-leave-active
 {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateX(130px);
+}
+.user-list-move {
+  transition: transform .4s;
 }
 </style>
