@@ -1,11 +1,14 @@
 <template>
   <div class="post">
-    <div>
+    <div class="post__content">
       <div>
         <strong>Название:</strong> {{ post.title }}
       </div>
       <div>
         <strong>Описание:</strong> {{ post.body }}
+      </div>
+      <div class="post__id">
+        {{ post.id }}
       </div>
     </div>
     <div class="close__btn">
@@ -37,5 +40,12 @@ export default {
   border: 2px solid teal;
   margin-top: 16px;
 }
-
+.post__id {
+  text-align: center;
+  font-size: 12px;
+  margin-top: 32px;
+}
+.post__content {
+  width: 100%;
+}
 </style>
