@@ -20,5 +20,22 @@ export default {
 </script>
 
 <style scoped>
+.about {
+  padding: 32px;
+}
+.about__header {
+  font-weight: 400;
+  font-size: 63px;
+  line-height: 82px;
+  color: #000000;
+  margin-bottom: 28px;
+}
 
+.about__title {
+  font-weight: 400;
+  font-size: 29px;
+  line-height: 38px;
+  color: #000000;
+  margin-bottom: 28px;
+}
 </style>
