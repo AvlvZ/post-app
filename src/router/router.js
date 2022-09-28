@@ -1,17 +1,14 @@
-const {createWebHistory, createRouter} = require("vue-router/dist/vue-router");
-const MainPage = require("@/pages/MainPage");
+import { createRouter, createWebHashHistory} from "vue-router";
 
+import vIndexPage from "./v-index-page";
+import vPostPage from "./v-post-page";
+import vAboutPage from "./v-about-page";
 
-const routes = [
-    {
-        path: '/',
-        component: MainPage
-    }
-]
-
-const router = createRouter({
-    routes,
-    history: createWebHistory(process.env.BASE_URL)
+export default createRouter({
+    history: createWebHashHistory(),
+    routes: [
+        { path: "/", component: vIndexPage },
+        { path: "/posts", component: vPostPage},
+        { path: "/about", component: vAboutPage}
+    ]
 })
-
-export default router

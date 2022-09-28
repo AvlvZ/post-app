@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <h1 class="app__header">Страница с постами</h1>
+  <div class="posts">
+    <h1 class="posts__header">Страница с постами</h1>
     <ui-my-input
         v-model="searchQuery"
         placeholder="Поиск..."
-        class="app__input"
+        class="posts__input"
     />
-    <div class="app__btns">
+    <div class="posts__btns">
       <ui-button @click="showDialog">
         Создать пост
       </ui-button>
@@ -32,16 +32,18 @@
 </template>
 
 <script>
-import UiMyInput from "@/components/UI/ui-input";
-import UiSelect from "@/components/UI/ui-select";
-import VLoading from "@/components/v-loading";
-import UiButton from "@/components/UI/ui-button";
-import VPostList from "@/components/v-post-list";
 import VPostForm from "@/components/v-post-form";
+import VPostList from "@/components/v-post-list";
+import UiButton from "@/components/UI/ui-button";
 import axios from "axios";
+import VLoading from "@/components/v-loading";
+import UiSelect from "@/components/UI/ui-select";
+import UiMyInput from "@/components/UI/ui-input";
+import VHeader from "@/components/v-header";
+
 export default {
-  name: "PostPage",
-  components: {UiMyInput, UiSelect, VLoading, UiButton, VPostList, VPostForm},
+  name: "v-post-page",
+  components: {VHeader, UiMyInput, UiSelect, VLoading, UiButton, VPostList, VPostForm},
   data() {
     return {
       posts: [],
@@ -87,7 +89,6 @@ export default {
         this.totalPages = Math.ceil(response.headers["x-total-count"] / this.limit)
         this.posts = response.data;
         this.isPostLoading = false;
-
       } catch (error) {
         console.error(error)
       }
@@ -104,7 +105,6 @@ export default {
         this.totalPages = Math.ceil(response.headers["x-total-count"] / this.limit)
         console.log(response.headers)
         this.posts = [...this.posts, ...response.data];
-
       } catch (error) {
         console.error(error)
       }
@@ -117,7 +117,7 @@ export default {
       threshold: 1.0
     }
     const callback = (entries) => {
-      if(entries[0].isIntersecting && this.page < this.totalPages) this.loadMorePosts()
+      if (entries[0].isIntersecting && this.page < this.totalPages) this.loadMorePosts()
     }
     const observer = new IntersectionObserver(callback, options);
     observer.observe(this.$refs.observer)
@@ -139,21 +139,42 @@ export default {
 </script>
 
 <style scoped>
-.app__header {
+.posts {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  padding: 32px;
+}
+
+.posts__header {
   margin-bottom: 32px;
   text-align: center;
 }
-.app__btns {
+
+.posts__btns {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 0 auto 64px auto;
 }
-.app__input {
+
+.posts__input {
   margin-bottom: 16px;
 }
+
 .observer {
   height: 30px;
   background: red;
+}
+
+nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>
