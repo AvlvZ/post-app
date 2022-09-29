@@ -35,7 +35,8 @@ export default {
 select {
   width: 200px;
   height: 50px;
-  border: 2px solid teal;
+  color: #9500FF;
+  border: 2px solid #9500FF;
   padding: 0 16px;
 }
 </style>

@@ -1,17 +1,19 @@
 <template>
-  <div v-if="posts.length > 0">
-    <h3>Список постов</h3>
-    <transition-group name="user-list">
-      <v-post-item
-          v-for="post in posts"
-          :key="post.id"
-          :post="post"
-          @remove="$emit('remove', post)"
-      />
-    </transition-group>
-  </div>
-  <div style="color: red" v-else>
-    Список постов пуст
+  <div class="post-list">
+    <div v-if="posts.length > 0">
+      <h3 class="post-list__header">Список постов</h3>
+      <transition-group name="user-list">
+        <v-post-item
+            v-for="post in posts"
+            :key="post.id"
+            :post="post"
+            @remove="$emit('remove', post)"
+        />
+      </transition-group>
+    </div>
+    <div style="color: red" v-else>
+      Список постов пуст
+    </div>
   </div>
 </template>
 
@@ -47,5 +49,12 @@ export default {
 }
 .user-list-move {
   transition: transform .4s;
+}
+
+.post-list__header {
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 82px;
+  color: #111;
 }
 </style>

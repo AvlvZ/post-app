@@ -14,8 +14,8 @@ export default {
 button {
   padding: 18px 15px;
   background: none;
-  color: teal;
-  border: 2px solid teal;
+  color: #9500FF;
+  border: 2px solid #9500FF;
   cursor: pointer;
 }
 </style>

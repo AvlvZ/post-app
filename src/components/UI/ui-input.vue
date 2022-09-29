@@ -32,7 +32,7 @@ export default {
 <style scoped>
 input {
   width: 100%;
-  border: 2px solid teal;
+  border: 2px solid #9500FF;
   padding: 18px 15px;
   margin-top: 15px;
 }

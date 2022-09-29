@@ -2,6 +2,7 @@
   <div class="add__form">
     <form class="form" @submit.prevent>
       <ui-my-input
+          v-focus
           :typeProps="this.typeProps"
           :placeholderProps="this.placeholderProps[0]"
           v-model="post.title"

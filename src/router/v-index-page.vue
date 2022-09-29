@@ -68,11 +68,11 @@ export default {
 }
 
 .welcome__btn {
-  font-weight: 700;
+  font-weight: 400;
   font-size: 57px;
   line-height: 74px;
   color: #9500FF;
-  border: 5px solid #9500FF;
+  border: 2px solid #9500FF;
   border-radius: 59px;
   padding: 20px 43px;
   cursor: pointer;

@@ -5,6 +5,7 @@
         v-model="searchQuery"
         placeholder="Поиск..."
         class="posts__input"
+        v-focus
     />
     <div class="posts__btns">
       <ui-button @click="showDialog">
@@ -27,7 +28,7 @@
         v-if="!isPostLoading"
     />
     <v-loading v-else/>
-    <div ref="observer" class="observer"></div>
+    <div v-intersection="loadMorePosts" class="observer"></div>
   </div>
 </template>
 
@@ -39,11 +40,10 @@ import axios from "axios";
 import VLoading from "@/components/v-loading";
 import UiSelect from "@/components/UI/ui-select";
 import UiMyInput from "@/components/UI/ui-input";
-import VHeader from "@/components/v-header";
 
 export default {
   name: "v-post-page",
-  components: {VHeader, UiMyInput, UiSelect, VLoading, UiButton, VPostList, VPostForm},
+  components: {UiMyInput, UiSelect, VLoading, UiButton, VPostList, VPostForm},
   data() {
     return {
       posts: [],
@@ -112,15 +112,6 @@ export default {
   },
   async mounted() {
     await this.fetchPost();
-    const options = {
-      rootMargin: '0px',
-      threshold: 1.0
-    }
-    const callback = (entries) => {
-      if (entries[0].isIntersecting && this.page < this.totalPages) this.loadMorePosts()
-    }
-    const observer = new IntersectionObserver(callback, options);
-    observer.observe(this.$refs.observer)
   },
   computed: {
     sortedPosts() {
@@ -151,6 +142,10 @@ export default {
 .posts__header {
   margin-bottom: 32px;
   text-align: center;
+  font-weight: 400;
+  font-size: 60px;
+  line-height: 82px;
+  color: #111;
 }
 
 .posts__btns {
@@ -162,11 +157,6 @@ export default {
 
 .posts__input {
   margin-bottom: 16px;
-}
-
-.observer {
-  height: 30px;
-  background: red;
 }
 
 nav a {

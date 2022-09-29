@@ -11,7 +11,10 @@
         {{ post.id }}
       </div>
     </div>
-    <div class="close__btn">
+    <div class="post__btn">
+      <ui-button @click="$router.push(`/posts/${post.id}`)">
+        Открыть
+      </ui-button>
       <ui-button @click="$emit('remove', post)">
         Удалить
       </ui-button>
@@ -37,7 +40,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 15px;
-  border: 2px solid teal;
+  border: 2px solid #9500FF;
   margin-top: 16px;
 }
 .post__id {
@@ -47,5 +50,10 @@ export default {
 }
 .post__content {
   width: 100%;
+}
+.post__btn {
+  display: flex;
+  gap: 8px;
+  margin-left: 16px;
 }
 </style>
