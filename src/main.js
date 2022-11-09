@@ -3,7 +3,8 @@ import App from './App.vue'
 import components from "@/components/UI/index"
 import router from "./router/router"
 import directives from "@/directives";
-import "./assets/stylesheets/style.css"
+import store from "@/store";
+import "./assets/stylesheets/style.css";
 
 const app = createApp(App)
 
@@ -17,4 +18,5 @@ directives.forEach(directive => {
 
 app
     .use(router)
+    .use(store)
     .mount('#app')

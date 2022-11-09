@@ -1,6 +1,6 @@
 <template>
   <div class="post-list">
-    <div v-if="posts.length > 0">
+    <div v-if="$store.state.post.posts.length > 0">
       <h3 class="post-list__header">Список постов</h3>
       <transition-group name="user-list">
         <v-post-item

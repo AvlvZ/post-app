@@ -1,18 +1,23 @@
 <template>
+  <div>
+    <h1>{{ $store.state.post.limit }}</h1>
+  </div>
   <div class="posts">
     <h1 class="posts__header">Страница с постами</h1>
-    <ui-my-input
-        v-model="searchQuery"
-        placeholder="Поиск..."
-        class="posts__input"
-        v-focus
-    />
+      <ui-my-input
+          :model-value="searchQuery"
+          @update:model-value="setSearchQuery"
+          placeholder="Поиск..."
+          class="posts__input"
+          v-focus
+      />
     <div class="posts__btns">
       <ui-button @click="showDialog">
         Создать пост
       </ui-button>
       <ui-select
-          v-model="selectedSort"
+          :model-value="selectedSort"
+          @update:model-value="setSelectedSort"
           :options="sortOption"
       />
     </div>
@@ -36,32 +41,29 @@
 import VPostForm from "@/components/v-post-form";
 import VPostList from "@/components/v-post-list";
 import UiButton from "@/components/UI/ui-button";
-import axios from "axios";
 import VLoading from "@/components/v-loading";
-import UiSelect from "@/components/UI/ui-select";
-import UiMyInput from "@/components/UI/ui-input";
+// import UiSelect from "@/components/UI/ui-select";
+// import UiMyInput from "@/components/UI/ui-input";
+import {mapState, mapGetters, mapMutations, mapActions} from "vuex"
 
 export default {
   name: "v-post-page",
-  components: {UiMyInput, UiSelect, VLoading, UiButton, VPostList, VPostForm},
+  components: {VLoading, UiButton, VPostList, VPostForm},
   data() {
     return {
-      posts: [],
       dialogVisible: false,
-      modifierValue: "",
-      isPostLoading: false,
-      selectedSort: "",
-      searchQuery: "",
-      page: 2,
-      limit: 10,
-      totalPages: 0,
-      sortOption: [
-        {value: "title", name: "По названию"},
-        {value: "body ", name: "По описанию"}
-      ]
     }
   },
   methods: {
+    ...mapMutations({
+      setPage: "setPage",
+      setSearchQuery: "setSearchQuery",
+      setSelectedSort: "setSelectedSort",
+    }),
+    ...mapActions({
+      loadMorePosts: "loadMorePosts",
+      fetchPosts: "fetchPost"
+    }),
     createPost(post) {
       this.posts.push(post)
     },
@@ -77,55 +79,28 @@ export default {
     changePage(pageNumber) {
       this.page = pageNumber
     },
-    async fetchPost() {
-      try {
-        this.isPostLoading = true
-        const response = await axios.get("https://jsonplaceholder.typicode.com/posts", {
-          params: {
-            _page: this.page,
-            _limit: this.limit
-          }
-        });
-        this.totalPages = Math.ceil(response.headers["x-total-count"] / this.limit)
-        this.posts = response.data;
-        this.isPostLoading = false;
-      } catch (error) {
-        console.error(error)
-      }
-    },
-    async loadMorePosts() {
-      try {
-        this.page++;
-        const response = await axios.get("https://jsonplaceholder.typicode.com/posts", {
-          params: {
-            _page: this.page,
-            _limit: this.limit
-          }
-        });
-        this.totalPages = Math.ceil(response.headers["x-total-count"] / this.limit)
-        console.log(response.headers)
-        this.posts = [...this.posts, ...response.data];
-      } catch (error) {
-        console.error(error)
-      }
-    }
-  },
-  async mounted() {
-    await this.fetchPost();
   },
   computed: {
-    sortedPosts() {
-      return [...this.posts].sort((post1, post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
-    },
-    sortedAndSearchedPosts() {
-      return this.sortedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery.toLowerCase()))
-    }
+    ...mapState({
+      posts: state => state.post.posts,
+      modifierValue: state => state.post.modifierValue,
+      isPostLoading: state => state.post.isPostLoading,
+      selectedSort: state => state.post.selectedSort,
+      searchQuery: state => state.post.searchQuery,
+      page: state => state.post.page,
+      limit: state => state.post.limit,
+      totalPages: state => state.post.totalPages,
+      sortOption: state => state.post.sortOption
+    }),
+    ...mapGetters({
+      sortedPosts: "sortedPosts",
+      sortedAndSearchedPosts: "sortedAndSearchedPosts",
+    })
   },
-  watch: {
-    // page() {
-    //   this.fetchPost()
-    // }
-  }
+  mounted() {
+    this.fetchPosts();
+  },
+  namespaced: true
 }
 </script>
 
@@ -166,5 +141,12 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.posts-like {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  gap: 16px;
 }
 </style>

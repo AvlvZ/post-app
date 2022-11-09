@@ -10,6 +10,12 @@
       <li class="menu__item">
         <button class="menu__link" @click="$router.push('/about')">О сайте</button>
       </li>
+      <li class="menu__item">
+        <button class="menu__link" @click="$router.push('/store')">Store</button>
+      </li>
+      <li class="menu__item">
+        <button class="menu__link" @click="$router.push('/composition')">Composition</button>
+      </li>
     </ul>
   </header>
 </template>
